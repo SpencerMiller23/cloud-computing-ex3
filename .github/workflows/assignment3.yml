@@ -11,7 +11,7 @@ jobs:
       - name: Build and export
         uses: docker/build-push-action@v3
         with:
-          context: ./meals-service/
-          file: ./Dockerfile
+          context: .
+          file: ./meals-service/Dockerfile
           tags: meals-service:latest
           outputs: type=docker,dest=/tmp/image.tar
