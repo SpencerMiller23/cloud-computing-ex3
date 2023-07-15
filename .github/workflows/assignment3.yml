@@ -1,15 +1,15 @@
 name: assignment3
 on: [push]
 jobs:
-  remove-old-artifacts:
+  clean-up:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     steps:
-    - name: Remove old artifacts
-      uses: c-hive/gha-remove-artifacts@v1
-      with:
-        age: '1 seconds'
+      - name: Delete artifacts
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: meals-service
   build:
+    needs: clean-up
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
