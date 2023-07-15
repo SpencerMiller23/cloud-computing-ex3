@@ -1,17 +1,13 @@
 name: assignment3
 on: [push]
 jobs:
-  clean-up:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Delete artifacts
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: meals-service
   build:
-    needs: clean-up
     runs-on: ubuntu-latest
     steps:
+      - name: Log workflow start time
+        run: echo "date -lminutes" >> log.txt
+      - name: Log submitter names
+        run: echo "Spencer Miller" >> log.txt
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set up Docker Buildx
@@ -23,7 +19,18 @@ jobs:
           file: ./meals-service/Dockerfile
           tags: meals-service:latest
           outputs: type=docker,dest=/tmp/image.tar
-      - name: Upload artifact
+      - name: Log successful build
+        if: success()
+        run: echo "image successfully built"
+      - name: Log failed
+        if: failure()
+        run: echo "image not able to be built"
+      - name: Upload log artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: log.txt
+          path: log.txt
+      - name: Upload docker image artifact
         uses: actions/upload-artifact@v3
         with:
           name: meals-service
