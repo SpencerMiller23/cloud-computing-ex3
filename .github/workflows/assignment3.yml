@@ -8,7 +8,7 @@ jobs:
     - name: Remove old artifacts
       uses: c-hive/gha-remove-artifacts@v1
       with:
-        age: '0 days'
+        age: '1 seconds'
   build:
     runs-on: ubuntu-latest
     steps:

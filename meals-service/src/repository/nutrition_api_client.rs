@@ -67,11 +67,17 @@ pub async fn get_nutrition_data(dish_name: String) -> Result<NutritionInformatio
     match results {
         Ok(response) => {
             match response.json::<Vec<NutritionInformation>>().await {
-                Ok(d) => dishes = d,
+                Ok(d) => {
+                    dishes = d;
+                },
                 _ => return Err(-4)
             }
         },
         _ => return Err(-4)
+    }
+
+    if dishes.len() == 0 {
+        return Err(-3)
     }
 
     let mut data = NutritionInformation { name: dish_name, ..Default::default() };
