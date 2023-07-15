@@ -6,6 +6,8 @@ jobs:
     steps:
       - name: Log workflow start time
         run: echo "date -lminutes \n" > log.txt
+      - name: Pring log.txt
+        run: cat log.txt
       - name: Log submitter names
         run: echo "Spencer Miller \n" >> log.txt
       - name: Checkout
@@ -21,16 +23,16 @@ jobs:
           outputs: type=docker,dest=/tmp/image.tar
       - name: Log successful build
         if: success()
-        run: echo "image successfully built \n"
+        run: echo "image successfully built \n" >> log.txt
       - name: Log failed build
         if: failure()
-        run: echo "image not able to be built \n"
+        run: echo "image not able to be built \n" >> log.txt
       - name: Upload log artifact
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: log.txt
-          path: ./log.txt
+          path: ./meals-service/log.txt
       - name: Upload docker image artifact
         uses: actions/upload-artifact@v3
         with:
