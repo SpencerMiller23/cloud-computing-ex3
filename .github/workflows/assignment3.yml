@@ -1,6 +1,14 @@
 name: assignment3
 on: [push]
 jobs:
+  remove-old-artifacts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Remove old artifacts
+      uses: c-hive/gha-remove-artifacts@v1
+      with:
+        age: '0 days'
   build:
     runs-on: ubuntu-latest
     steps:
