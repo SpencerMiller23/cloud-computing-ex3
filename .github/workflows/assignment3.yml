@@ -8,11 +8,10 @@ jobs:
         uses: actions/checkout@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - run: cd ./meals-service
       - name: Build and export
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./meals-service/
           file: ./Dockerfile
           tags: meals-service:latest
           outputs: type=docker,dest=/tmp/image.tar
