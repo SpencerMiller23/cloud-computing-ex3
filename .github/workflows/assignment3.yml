@@ -4,4 +4,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Hello world"
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build and export
+        uses: docker/build-push-action@v3
+        with:
+          context: ./meals-service
+          file: ./Dockerfile
+          tags: meals-service:latest
+          outputs: type=docker,dest=/tmp/image.tar
