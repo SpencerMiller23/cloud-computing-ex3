@@ -15,3 +15,21 @@ jobs:
           file: ./meals-service/Dockerfile
           tags: meals-service:latest
           outputs: type=docker,dest=/tmp/image.tar
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: meals-service
+          path: /tmp/image.tar
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+      - name: Load Docker images from previous workflows
+        run: docker load --input meals-service/image.tar
+      - name: Check meals-service image is loaded
+        run: docker image ls
+      - name: Run image in container
+        run: docker run -p 8000:8000 meals-service &
+      - name: Check container is running
+        run: docker ps
