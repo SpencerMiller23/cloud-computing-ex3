@@ -5,11 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Log workflow start time
-        run: echo "date -lminutes \n" > log.txt
+        run: echo date -lminutes \n > log.txt
       - name: Pring log.txt
         run: cat log.txt
       - name: Log submitter names
         run: echo "Spencer Miller \n" >> log.txt
+      - name: Pring log.txt
+        run: cat log.txt
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set up Docker Buildx
@@ -24,6 +26,8 @@ jobs:
       - name: Log successful build
         if: success()
         run: echo "image successfully built \n" >> log.txt
+      - name: Pring log.txt
+        run: cat log.txt
       - name: Log failed build
         if: failure()
         run: echo "image not able to be built \n" >> log.txt
@@ -32,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: log.txt
-          path: ./meals-service/log.txt
+          path: ./log.txt
       - name: Upload docker image artifact
         uses: actions/upload-artifact@v3
         with:
