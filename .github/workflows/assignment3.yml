@@ -4,10 +4,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Log workflow start time
-        run: echo -e "$(date -Iminutes)" >> log.txt
-      - name: Log submitter names
-        run: echo -e "Spencer Miller" >> log.txt
+      - name: Set workflow start time and submitters
+        run: |
+          echo "DATE=$(date -Iminutes)" >> $GITHUB_ENV
+          echo "SUBMITTER=Spencer Miller" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set up Docker Buildx
@@ -21,10 +21,12 @@ jobs:
           outputs: type=docker,dest=/tmp/image.tar
       - name: Log successful build
         if: success()
-        run: echo -e "image successfully built" >> log.txt
+        run: echo "BUILD_RESULT=image successfully built" >> $GITHUB_ENV
       - name: Log failed build
         if: failure()
-        run: echo -e "image not able to be built" >> log.txt
+        run: echo "BUILD_RESULT=image not able to be built" >> $GITHUB_ENV
+      - name: Log to file
+        run: echo -e "${{ env.DATE }}\n${{ env.SUBMITTER }}\n${{ env.BUILD_RESULT }}" >> log.txt
       - name: Upload log artifact
         if: always()
         uses: actions/upload-artifact@v3
