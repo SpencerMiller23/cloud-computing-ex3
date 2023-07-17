@@ -60,6 +60,8 @@ jobs:
         run: echo "START_RESULT=Container failed to run" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Print current directory
+        run: ls
       - name: Setup Python
         uses: actions/setup-python@v4
       - name: Install dependencies
@@ -97,4 +99,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Read query.txt file
-        runs: cat query.txt
+        run: cat query.txt
