@@ -44,8 +44,6 @@ jobs:
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v3
-      - name: Print directory contents
-        run: ls
       - name: Load Docker images from previous workflows
         run: docker load --input meals-service/image.tar
       - name: Check meals-service image is loaded
@@ -84,8 +82,6 @@ jobs:
         with:
           name: GH_test_results
           path: tests/assn3_test_results.txt
-      - name: Print log.txt
-        run: cat etc/usr/log.txt
       - name: Log to file
         run: echo -e "${{ env.START_RESULT }}\n${{ env.TEST_RESULT }}" >> log.txt
       - name: Upload log file
@@ -94,11 +90,3 @@ jobs:
         with:
           name: log.txt
           path: log.txt
-  query:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Read query.txt file
-        runs: cat query.txt
