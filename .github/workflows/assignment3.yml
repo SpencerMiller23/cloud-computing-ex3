@@ -90,3 +90,11 @@ jobs:
         with:
           name: log.txt
           path: log.txt
+  query:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Read query.txt file
+        runs: cat query.txt
