@@ -43,7 +43,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
+        id: download
         uses: actions/download-artifact@v3
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
       - name: Load Docker images from previous workflows
         run: docker load --input meals-service/image.tar
       - name: Check meals-service image is loaded
@@ -60,8 +63,6 @@ jobs:
         run: echo "START_RESULT=Container failed to run" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Print current directory
-        run: ls
       - name: Setup Python
         uses: actions/setup-python@v4
       - name: Install dependencies
