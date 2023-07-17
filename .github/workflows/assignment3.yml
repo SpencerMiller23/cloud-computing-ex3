@@ -86,7 +86,7 @@ jobs:
           name: GH_test_results
           path: tests/assn3_test_results.txt
       - name: Log to file
-        run: echo -e "${{ env.START_RESULT }}\n${{ env.TEST_RESULT }}" >> log.txt
+        run: echo -e "${{ env.START_RESULT }}\n${{ env.TEST_RESULT }}" >> ./log.txt/log.txt
       - name: Upload log file
         if: always()
         uses: actions/upload-artifact@v3
@@ -97,6 +97,8 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Download artifacts
         uses: actions/download-artifact@v3
       - name: Load Docker images from previous workflows
@@ -107,8 +109,6 @@ jobs:
         run: docker run -p 8000:8000 meals-service &
       - name: Check container is running
         run: docker ps
-      - name: Checkout
-        uses: actions/checkout@v3
       - name: Read query.txt file
         run: |
           while read -r line
