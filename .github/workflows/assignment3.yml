@@ -42,6 +42,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Download artifacts
         id: download
         uses: actions/download-artifact@v3
@@ -61,8 +63,6 @@ jobs:
       - name: Log failed container start
         if: failure()
         run: echo "START_RESULT=Container failed to run" >> $GITHUB_ENV
-      - name: Checkout
-        uses: actions/checkout@v3
       - name: Setup Python
         uses: actions/setup-python@v4
       - name: Install dependencies
@@ -94,10 +94,24 @@ jobs:
           name: log.txt
           path: log.txt
   query:
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
     steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+      - name: Load Docker images from previous workflows
+        run: docker load --input meals-service/image.tar
+      - name: Check meals-service image is loaded
+        run: docker image ls
+      - name: Run image in container
+        run: docker run -p 8000:8000 meals-service &
+      - name: Check container is running
+        run: docker ps
       - name: Checkout
         uses: actions/checkout@v3
       - name: Read query.txt file
-        run: cat query.txt
+        run: |
+          while read -r line
+          do
+            echo "$line"
+          done < query.txt
