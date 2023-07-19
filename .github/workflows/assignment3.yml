@@ -110,7 +110,8 @@ jobs:
         run: |
           while IFS= read -r line
           do
-              echo $(curl --location --request --ipv4 GET "http://127.0.0.1:8000/dishes/${line::-3}") >> reponse.txt
+              echo $(curl -X GET -v --location --request --ipv4 "http://127.0.0.1:8000/dishes/${line::-3}")
+              echo $(curl -X GET -v --location --request --ipv4 "http://127.0.0.1:8000/dishes/${line::-3}") >> reponse.txt
           done < query.txt
       - name: Upload query results
         if: always()
