@@ -110,9 +110,9 @@ jobs:
         run: |
           while IFS= read -r line
           do
-              echo http://127.0.0.1:8000/dishes/${line::-3}
-              curl POST -v http://127.0.0.1:8000/dishes/${line::-3} -H 'Content-Type: application/json' -d '{"name": ${line::-3}}'
-              echo $(curl -X GET -v --location --request --ipv4 http://127.0.0.1:8000/dishes/${line::-3}) >> reponse.txt
+              echo http://127.0.0.1:8000/dishes/${line::-2}
+              curl -X POST -v http://127.0.0.1:8000/dishes/${line::-2} -H 'Content-Type: application/json' -d '{"name": ${line::-2}}'
+              echo $(curl -X GET -v --location --request --ipv4 http://127.0.0.1:8000/dishes/${line::-2}) >> reponse.txt
           done < query.txt
       - name: Upload query results
         if: always()
