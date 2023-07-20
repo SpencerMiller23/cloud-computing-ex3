@@ -110,8 +110,8 @@ jobs:
         run: |
           while IFS= read -r line
           do
-              echo {"name": "${line::-2}"}
-              curl -X POST -v http://127.0.0.1:8000/dishes -H "Content-Type: application/json" -d '{"name": "${line::-2}"}'
+              echo {\"name\": \"${line::-2}\"}
+              curl -X POST -v http://127.0.0.1:8000/dishes -H "Content-Type: application/json" -d '{\"name\": \"${line::-2}\"}'
               curl -X GET -v --location --request --ipv4 http://127.0.0.1:8000/dishes/${line::-2} >> reponse.txt
           done < query.txt
       - name: Upload query results
