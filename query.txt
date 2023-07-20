@@ -1,4 +1,3 @@
 orange\n
 salmon\n
 corn flakes\n
-\n
